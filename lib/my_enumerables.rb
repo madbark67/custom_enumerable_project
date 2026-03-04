@@ -36,7 +36,7 @@ module Enumerable
   end
 
   def my_any?
-        self.my_each do |value|
+    self.my_each do |value|
       if block_given?
         if yield(value)
           return true
@@ -46,6 +46,31 @@ module Enumerable
       end  
     end
     false
+  end
+
+  def my_none? 
+    self.my_each do |value|
+      if block_given?
+        if yield(value)
+          return false
+        end
+      elsif value
+        return false
+      end  
+    end
+    true
+  end
+
+  def my_count
+    count = 0
+    if block_given?
+      self.each do |value|
+        count += 1 unless !yield(value)
+      end
+    else
+      return self.length
+    end
+    count
   end
 end
 
