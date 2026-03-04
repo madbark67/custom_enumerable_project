@@ -72,6 +72,28 @@ module Enumerable
     end
     count
   end
+
+  def my_map
+    return to_enum(:my_map) unless block_given?
+
+    new_array = Array.new()
+    self.my_each do |value|
+      new_array << yield(value)
+    end
+    new_array
+  end
+
+  def my_inject(initial = nil)
+    sum = initial
+    self.my_each do |value|
+      if sum == nil
+        sum = value
+      else
+        sum = yield(sum,value)
+      end
+    end
+    sum
+  end
 end
 
 # You will first have to define my_each
